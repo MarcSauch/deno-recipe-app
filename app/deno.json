@@ -1,8 +1,14 @@
 {
   "tasks": {
-    "dev": "deno run --watch main.ts"
+    "dev": "deno run --watch main.ts",
+    "db:studio": "deno run --allow-env --allow-net --allow-read --allow-write npm:drizzle-kit@^0.31.3 studio"
   },
   "imports": {
-    "@std/assert": "jsr:@std/assert@1"
+    "@oak/oak": "jsr:@oak/oak@^17.1.4",
+    "@std/assert": "jsr:@std/assert@1",
+    "@types/pg": "npm:@types/pg@^8.15.4",
+    "drizzle-kit": "npm:drizzle-kit@^0.31.3",
+    "drizzle-orm": "npm:drizzle-orm@^0.44.2",
+    "pg": "npm:pg@^8.16.2"
   }
 }
