@@ -7,7 +7,7 @@ export interface RecipeUpdateDTO {
     description?: string;
     ingredients?: IngredientDTO[];
     method?: MethodDTO[];
-    imageUrl?: string;
+    image_url?: string;
 }
 
 export interface RecipeCreateDTO {
@@ -15,14 +15,21 @@ export interface RecipeCreateDTO {
     description: string;
     ingredients: IngredientDTO[];
     method: MethodDTO[];
-    imageUrl?: string;
+    image_url?: string;
 }
 
 export interface RecipeDTO{
-    id: string;
+    id: number;
     title: string;
     description: string;
     ingredients: IngredientDTO[];
     method: MethodDTO[];
-    imageUrl?: string;
+    image_url?: string;
+}
+
+export interface RecipeCardDTO {
+    id: number;
+    title: string;
+    description: string;
+    image_url?: string;
 }

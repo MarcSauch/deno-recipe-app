@@ -6,3 +6,5 @@ export const Recipe = pgTable("Recipes", {
   description: varchar({ length: 255 }).notNull(),
   image_url: varchar({ length: 255 }).notNull(),
 });
+
+export type RecipeType = typeof Recipe.$inferSelect;

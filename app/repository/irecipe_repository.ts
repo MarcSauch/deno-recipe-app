@@ -1,25 +1,35 @@
-import type { Recipe } from "../model/recipe";
+import { Recipe , RecipeType} from "../model/recipe.ts";
+import {RecipeCreateDTO, RecipeDTO, RecipeCardDTO} from "../dto/recipe_dto.ts";
+import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 
 
 export class IRecipeRepository {   
-    db: any; // Replace 'any' with your database type or ORM instance
+    db: NodePgDatabase<{ Recipe: typeof Recipe }>;
 
     constructor(db : any) {
         // Initialize the database connection or ORM here if needed
         this.db = db;
 
     }
-    async create(recipe: Recipe): Promise<Recipe> {
+    async create(recipe: RecipeCreateDTO): Promise<RecipeCardDTO> {
         throw new Error("Method not implemented.");
     }
 
-    async get( id: number): Promise<Recipe | null> {
+    async get( id: number): Promise<RecipeDTO | null> {
         throw new Error("Method not implemented.");
     }
-    async getAll(): Promise<Recipe[]> {
+
+    async get_all(): Promise<RecipeDTO[]> {
         throw new Error("Method not implemented.");
     }  
-    async update(id: number, recipe: Partial<Recipe>): Promise<Recipe | null> {
+
+    async get_all_recipes_card(): Promise<RecipeType[]> {
+        throw new Error("Method not implemented.");
+    }
+    async update(recipe: RecipeDTO): Promise<number | null> {
+        throw new Error("Method not implemented.");
+    }
+    async delete(id: number): Promise<boolean> {
         throw new Error("Method not implemented.");
     }
 }

@@ -34,3 +34,6 @@ export const Ingredient = pgTable("Ingredients", {
         onUpdate: "cascade",
     }),
 });
+
+
+export type IngredientType = typeof Ingredient.$inferSelect;

@@ -1,8 +1,9 @@
 
-import { RecipeDTO, RecipeCreateDTO ,RecipeUpdateDTO } from "../dto/recipe_dto.ts";
+import { RecipeDTO, RecipeCreateDTO ,RecipeUpdateDTO ,RecipeCardDTO} from "../dto/recipe_dto.ts";
 
 export class IRecipeService {
-    async create(recipe: RecipeCreateDTO): Promise<RecipeDTO> {
+    
+    async create(recipe: RecipeCreateDTO): Promise<RecipeCardDTO> {
         throw new Error("Method not implemented.");
     }
 
@@ -10,15 +11,21 @@ export class IRecipeService {
         throw new Error("Method not implemented.");
     }
 
-    async getAll(): Promise<RecipeDTO[]> {
+    async get_all(): Promise<RecipeDTO[]>{
+        console.log("Method not implemented.");
         throw new Error("Method not implemented.");
     }
 
-    async update(id: number, recipe: RecipeUpdateDTO): Promise<RecipeDTO | null> {
+    async get_all_recipes_card(): Promise<RecipeCardDTO[]> {
+        console.log("Method not implemented.");
         throw new Error("Method not implemented.");
     }
 
-    // async delete(id: number): Promise<void> {
-    //     throw new Error("Method not implemented.");
-    // }
+    async update(recipe: RecipeDTO): Promise<number | null> {
+        throw new Error("Method not implemented.");
+    }
+
+    async delete(id: number): Promise<boolean> {
+        throw new Error("Method not implemented.");
+    }
 }

@@ -14,11 +14,13 @@
     "jsr:@std/path@1": "1.1.0",
     "npm:@types/node@*": "22.15.15",
     "npm:@types/pg@^8.15.4": "8.15.4",
+    "npm:dotenv@^16.6.0": "16.6.0",
     "npm:drizzle-kit@*": "0.31.3_esbuild@0.25.5",
     "npm:drizzle-kit@~0.31.3": "0.31.3_esbuild@0.25.5",
     "npm:drizzle-orm@~0.44.2": "0.44.2_@types+pg@8.15.4_pg@8.16.2",
     "npm:path-to-regexp@^6.3.0": "6.3.0",
-    "npm:pg@^8.16.2": "8.16.2"
+    "npm:pg@^8.16.2": "8.16.2",
+    "npm:tsx@^4.20.3": "4.20.3"
   },
   "jsr": {
     "@oak/commons@1.0.1": {
@@ -353,6 +355,9 @@
         "ms"
       ]
     },
+    "dotenv@16.6.0": {
+      "integrity": "sha512-Omf1L8paOy2VJhILjyhrhqwLIdstqm1BvcDPKg4NGAlkwEu9ODyrFbvk8UymUOMCT+HXo31jg1lArIrVAAhuGA=="
+    },
     "drizzle-kit@0.31.3_esbuild@0.25.5": {
       "integrity": "sha512-M8/o1oNvTzb0nhMch2W5i+Dz2YUp7ZjAeVx4L85hLjnFMxkB+LkKHTGg2MPAGc6ENFSVyozrxMa3DPqVrJt94w==",
       "dependencies": [
@@ -441,6 +446,11 @@
       ],
       "scripts": true,
       "bin": true
+    },
+    "fsevents@2.3.3": {
+      "integrity": "sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==",
+      "os": ["darwin"],
+      "scripts": true
     },
     "get-tsconfig@4.10.1": {
       "integrity": "sha512-auHyJ4AgMz7vgS8Hp3N6HXSmlMdUyhSUrfBF16w153rxtLIEOE+HGqaBppczZvnHLqQJfiHotCYpNhl0lUROFQ==",
@@ -532,6 +542,17 @@
     "split2@4.2.0": {
       "integrity": "sha512-UcjcJOWknrNkF6PLX83qcHM6KHgVKNkV62Y8a5uYDVv9ydGQVwAHMKqHdJje1VTWpljG0WYpCDhrCdAOYH4TWg=="
     },
+    "tsx@4.20.3": {
+      "integrity": "sha512-qjbnuR9Tr+FJOMBqJCW5ehvIo/buZq7vH7qD7JziU98h6l3qGy0a/yPFjwO+y0/T7GFpNgNAvEcPPVfyT8rrPQ==",
+      "dependencies": [
+        "esbuild@0.25.5",
+        "get-tsconfig"
+      ],
+      "optionalDependencies": [
+        "fsevents"
+      ],
+      "bin": true
+    },
     "undici-types@6.21.0": {
       "integrity": "sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ=="
     },
@@ -578,9 +599,11 @@
       "jsr:@oak/oak@^17.1.4",
       "jsr:@std/assert@1",
       "npm:@types/pg@^8.15.4",
+      "npm:dotenv@^16.6.0",
       "npm:drizzle-kit@~0.31.3",
       "npm:drizzle-orm@~0.44.2",
-      "npm:pg@^8.16.2"
+      "npm:pg@^8.16.2",
+      "npm:tsx@^4.20.3"
     ]
   }
 }

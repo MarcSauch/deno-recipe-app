@@ -1,0 +1,19 @@
+meta {
+  name: New Method
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8010/api/methods/create-method
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "step": "Preheat oven to 350°F", 
+    "step_number": 1, 
+    "recipe_id": 1
+  }
+}
