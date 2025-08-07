@@ -77,8 +77,8 @@ method_router
             const createdMethod = await service.create(data as CreateMethodDTO);
             console.log("Created method:", createdMethod);
             
-            context.response.status = 201;
-            context.response.body = `method created with name: ${createdMethod.id}`;
+            context.response.status = 200;
+            context.response.body = { method: createdMethod };
         } catch (error) {
             context.response.status = 500;
             context.response.body = "Error creating method.";
@@ -117,4 +117,27 @@ method_router
         }
     });
 
+method_router
+    .delete("/method/:id", async (context) => {
+        const id = context.params.id;
+        if (!id) {
+            context.response.status = 400;
+            context.response.body = "Method ID is required.";
+            return;
+        }
 
+        try {
+            const service = await get_method_service();
+            const method_id = parseInt(id);
+            console.log(`Deleting Method with ID: ${method_id}`);
+
+            const success = await service.delete(method_id);
+            context.response.status = success ? 200 : 404;
+            context.response.body = { success };
+            console.log(`Method with ID ${method_id} deleted successfully.`);
+        } catch (error) {
+            context.response.status = 500;
+            context.response.body = "Error deleting Method.";
+            console.error("Error deleting Method:", error);
+        }
+    });

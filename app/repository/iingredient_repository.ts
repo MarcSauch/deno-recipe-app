@@ -15,7 +15,6 @@ export class IIngredientRepository {
         throw new Error("Method not implemented.");
     }
 
-
     async get( id: number): Promise<IngredientType | null> {
         throw new Error("Method not implemented.");
     }
@@ -27,7 +26,12 @@ export class IIngredientRepository {
     get_all_ingredients_by_recipe_id(recipe_id: number): Promise<IngredientType[]> {
         throw new Error("Method not implemented.");
     }
+
     async update(id: number, ingredient: UpdateIngredientDTO): Promise<IngredientType | null> {
+        throw new Error("Method not implemented.");
+    }
+
+    async delete(id: number): Promise<boolean> {
         throw new Error("Method not implemented.");
     }
 }

@@ -1,0 +1,260 @@
+{
+  "Game": {
+      "Structure": {
+          "Nouns": {
+              "Cell": {
+                  "type": "cell",
+                  "properties": {
+                      "coordinate": {
+                          "type": "object",
+                          "properties": {
+                              "x": {
+                                  "type": "integer",
+                                  "default_value": 0
+                              },
+                              "y": {
+                                  "type": "integer",
+                                  "default_value": 0
+                              },
+                              "z": {
+                                  "type": "integer",
+                                  "default_value": 0
+                              }
+                          }
+                      }
+
+                  },
+                  "value": {
+                      "type": "string",
+                      "enum": [
+                          "X",
+                          "O",
+                          null
+                      ],
+                      "nullable": true,
+                      "default_value": null
+                  },
+                  "design": {
+                        "type": "object",
+                        "properties": {
+                            "style": {
+                                "type": "object",
+                                "properties": {},
+                                "default_value": {}
+
+                            },
+                            "assets": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "default_value": []
+                            }
+                        }
+                  }
+              },
+              "Board": {
+                  "type": "grid",
+                  "properties": {
+                      "rows": {
+                          "type": "integer",
+                          "default_value": 3
+                      },
+                      "columns": {
+                          "type": "integer",
+                          "default_value": 3
+                      },
+                      "cells": {
+                          "type": "Cell",
+                          "default_value": null
+                      }
+                  }
+              },
+              "Players": {
+                  "type": "player",
+                  "properties": {
+                      "id": {
+                          "type": "string",
+                          "default_value": "player1"
+                      },
+                      "symbol": {
+                          "type": "string",
+                          "enum": [
+                              "X",
+                              "O"
+                          ],
+                          "nullable": false,
+                          "default_value": "X"
+                      },
+                      "isCurrent": {
+                          "type": "boolean",
+                          "default_value": false
+                      }
+                  }
+              },
+              "Piece": {
+                  "type": "agent",
+                  "properties": {
+                      "id": {
+                          "type": "string",
+                          "default_value": "piece"
+                      },
+                      "playerId": {
+                          "type": "string",
+                          "default_value": "player1"
+                      },
+                      "symbol": {
+                          "type": "string",
+                          "enum": [
+                              "X",
+                              "O"
+                          ],
+                          "default_value": "X"
+                      },
+                      "position": {
+                          "type": "Cell",
+                          "default_value": null,
+                          "nullable": true
+                      },
+                      "isPlaced": {
+                          "type": "boolean",
+                          "default_value": false
+                      }
+                  }
+              }
+          }
+      },
+      "Setup": {
+          "players": {
+              "type": "Player",
+              "value": [
+                  {
+                      "id": "player1",
+                      "symbol": "X",
+                      "isCurrent": true
+                  },
+                  {
+                      "id": "player2",
+                      "symbol": "O",
+                      "isCurrent": false
+                  }
+              ]
+          },
+          "board": {
+              "type": "Board",
+              "value": [
+                  {
+                      "coordinate": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                      },
+                      "value": null
+                  },
+                  {
+                      "coordinate": {
+                          "x": 0,
+                          "y": 1,
+                          "z": 0
+                      },
+                      "value": null
+                  },
+                  {
+                      "coordinate": {
+                          "x": 0,
+                          "y": 2,
+                          "z": 0
+                      },
+                      "value": null
+                  },
+                  {
+                      "coordinate": {
+                          "x": 1,
+                          "y": 0,
+                          "z": 0
+                      },
+                      "value": null
+                  },
+                  {
+                      "coordinate": {
+                          "x": 1,
+                          "y": 1,
+                          "z": 0
+                      },
+                      "value": null
+                  },
+                  {
+                      "coordinate": {
+                          "x": 1,
+                          "y": 2,
+                          "z": 0
+                      },
+                      "value": null
+                  },
+                  {
+                      "coordinate": {
+                          "x": 2,
+                          "y": 0,
+                          "z": 0
+                      },
+                      "value": null
+                  },
+                  {
+                      "coordinate": {
+                          "x": 2,
+                          "y": 1,
+                          "z": 0
+                      },
+                      "value": null
+                  },
+                  {
+                      "coordinate": {
+                          "x": 2,
+                          "y": 2,
+                          "z": 0
+                      },
+                      "value": null
+                  }
+              ]
+          },
+          "gameState": {
+              "type": "GameState",
+              "value": "in_progress"
+          },
+          "pieces": {
+              "type": "Piece",
+              "value": [
+                  {
+                      "playerId": "player1",
+                      "symbol": "X",
+                      "count": 5
+                  },
+                  {
+                      "playerId": "player2",
+                      "symbol": "O",
+                      "count": 5
+                  }
+              ]
+          }
+      },
+      "World":{
+        "Board":{
+            "type":"grid",
+            "rows": 3,
+            "columns": 3,
+            "cells": [
+                {"type":"Cell","coordinate":{"x":0,"y":0,"z":0},"value":null, "design":{"style":{"border":"1px solid black"},"assets":[]}},
+                {"type":"Cell","coordinate":{"x":0,"y":1,"z":0},"value":null, "design":{"style":{"border":"1px solid black"},"assets":[]}},
+                {"type":"Cell","coordinate":{"x":0,"y":2,"z":0},"value":null, "design":{"style":{"border":"1px solid black"},"assets":[]}},
+                {"type":"Cell","coordinate":{"x":1,"y":0,"z":0},"value":null, "design":{"style":{"border":"1px solid black"},"assets":[]}},
+                {"type":"Cell","coordinate":{"x":1,"y":1,"z":0},"value":null, "design":{"style":{"border":"1px solid black"},"assets":[]}},
+                {"type":"Cell","coordinate":{"x":1,"y":2,"z":0},"value":null, "design":{"style":{"border":"1px solid black"},"assets":[]}},
+                {"type":"Cell","coordinate":{"x":2,"y":0,"z":0},"value":null, "design":{"style":{"border":"1px solid black"},"assets":[]}},
+                {"type":"Cell","coordinate":{"x":2,"y":1,"z":0},"value":null, "design":{"style":{"border":"1px solid black"},"assets":[]}},
+                {"type":"Cell","coordinate":{"x":2,"y":2,"z":0},"value":null, "design":{"style":{"border":"1px solid black"},"assets":[]}}
+            ]
+        }
+      }
+
+  }
+}

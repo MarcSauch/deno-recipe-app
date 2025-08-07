@@ -1,5 +1,5 @@
 import { Recipe , RecipeType} from "../model/recipe.ts";
-import {RecipeCreateDTO, RecipeDTO, RecipeCardDTO} from "../dto/recipe_dto.ts";
+import {RecipeCreateDTO, RecipeDTO, RecipeCardDTO, RecipeUpdateDTO} from "../dto/recipe_dto.ts";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 
 
@@ -26,10 +26,13 @@ export class IRecipeRepository {
     async get_all_recipes_card(): Promise<RecipeType[]> {
         throw new Error("Method not implemented.");
     }
-    async update(recipe: RecipeDTO): Promise<number | null> {
+    async update(id:number ,recipe: RecipeUpdateDTO): Promise<number | null> {
         throw new Error("Method not implemented.");
     }
     async delete(id: number): Promise<boolean> {
+        throw new Error("Method not implemented.");
+    }
+    async update_favorite(id: number, favorite: boolean): Promise<boolean> {
         throw new Error("Method not implemented.");
     }
 }

@@ -56,7 +56,7 @@ export class MethodService implements IMethodService {
         };
     }
 
-    // async delete(id: number): Promise<void> {
-    //     throw new Error("Method not implemented.");
-    // }
+    async delete(id: number): Promise<boolean> {
+        return await this.methodRepository.delete(id);
+    }
 }

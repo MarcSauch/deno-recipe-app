@@ -21,11 +21,14 @@ export class IRecipeService {
         throw new Error("Method not implemented.");
     }
 
-    async update(recipe: RecipeDTO): Promise<number | null> {
+    async update(recipeId: number ,recipe: RecipeUpdateDTO): Promise<number | null> {
         throw new Error("Method not implemented.");
     }
 
     async delete(id: number): Promise<boolean> {
+        throw new Error("Method not implemented.");
+    }
+    async update_favorite(id: number, favorite: boolean): Promise<boolean> {
         throw new Error("Method not implemented.");
     }
 }

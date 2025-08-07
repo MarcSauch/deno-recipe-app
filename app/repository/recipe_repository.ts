@@ -2,7 +2,7 @@ import {IRecipeRepository} from "./irecipe_repository.ts";
 import  { Recipe, RecipeType } from "../model/recipe.ts";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { eq, not, sql } from 'drizzle-orm';
-import { RecipeCreateDTO, RecipeDTO } from "../dto/recipe_dto.ts";
+import { RecipeCreateDTO, RecipeDTO, RecipeUpdateDTO } from "../dto/recipe_dto.ts";
 import { MethodRepository } from "./method_repository.ts";
 import { IngredientRepository } from "./ingredient_repository.ts";
 export class RecipeRepository implements IRecipeRepository
@@ -90,7 +90,6 @@ export class RecipeRepository implements IRecipeRepository
                 ...recipe[0],
                 method: methods.map(method => ({
                     id: method.id,
-                    recipe_id: method.recipe_id,
                     step: method.step,
                     step_number: method.step_number,
                 })),
@@ -153,33 +152,28 @@ export class RecipeRepository implements IRecipeRepository
 
     }
 
-    async update(recipe : RecipeDTO): Promise<number | null> {
-        const existingRecipe = await this.get(recipe.id);
+    async update(id: number, recipe: RecipeUpdateDTO): Promise<number | null> {
+        console.log("Trying to find recipe with ID:", id);
+        const existingRecipe = await this.get(id);
         if (!existingRecipe) {
             console.log("Recipe not found");
-            return null;
+            return null; // Recipe not found
         }
         const updatedRecipe = {
-            title: recipe.title,
-            description: recipe.description,
-            image_url: recipe.image_url
+            title: recipe.title ?? existingRecipe.title,
+            description: recipe.description ?? existingRecipe.description,
+            image_url: recipe.image_url ?? existingRecipe.image_url,
+            favorite: recipe.favorite ?? existingRecipe.favorite,
         };
-        await this.db.update(Recipe).set(updatedRecipe).where(eq(Recipe.id, recipe.id));
-        const methodRepo = new MethodRepository(this.db);
-        const ingredientRepo = new IngredientRepository(this.db);
+        const result = await this.db.update(Recipe).set(updatedRecipe).where(eq(Recipe.id,id)).returning();
+        if (result.length === 0) {
+            console.warn(`Recipe with ID ${id} not found for update`);
+            return null; // Recipe not found
+        }
+        console.log(`Recipe with ID ${id} updated successfully:`, result[0]);
+        return result[0].id; // Return the updated recipe ID
+        
 
-        recipe.method.forEach(async (step) =>{
-            console.log(`Updating method for recipe ID ${recipe.id}:`, step);
-            await methodRepo.update(step.id, step);
-        })
-
-        recipe.ingredients.forEach(async (ingredient) =>{
-            console.log(`Updating ingredient for recipe ID ${recipe.id}:`, ingredient);
-            await ingredientRepo.update(ingredient.id, ingredient);
-        });
-        console.log(`Recipe ID ${recipe.id} updated successfully`);
-
-        return recipe.id;
     }
 
     async delete(id: number): Promise<boolean> {
@@ -194,15 +188,14 @@ export class RecipeRepository implements IRecipeRepository
         
     }
 
-    // async update(id: number, recipe: Partial<Recipe>): Promise<Recipe | null> {
-    //     const existingRecipe = await this.get(id);
-    //     if (!existingRecipe) {
-    //         return null; // Recipe not found
-    //     }
-
-    //     const updatedRecipe = { ...existingRecipe, ...recipe };
-    //     await this.db.update(Recipe).set(updatedRecipe).where({ id });
-    //     return updatedRecipe;
-    // }
-
+    async update_favorite(id: number, favorite: boolean): Promise<boolean> {
+        const existingRecipe = await this.get(id);
+        if (!existingRecipe) {
+            console.log("Recipe not found");
+            return false;
+        }
+        await this.db.update(Recipe).set({ favorite: favorite }).where(eq(Recipe.id, id));
+        console.log(`Recipe ID ${id} updated successfully`);
+        return true;
+    }
 }

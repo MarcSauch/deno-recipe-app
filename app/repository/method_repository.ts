@@ -55,4 +55,9 @@ export class MethodRepository implements IMethodRepository {
         const result = await this.db.update(Method).set(updateData).where(eq(Method.id, id)).returning();
         return result.length > 0 ? result[0] : null;
     }
+
+    async delete(id: number): Promise<boolean> {
+      const result = await this.db.delete(Method).where(eq(Method.id, id)).returning();
+      return result.length > 0;
+    }
 }

@@ -3,6 +3,7 @@ import { RecipeDTO, RecipeCreateDTO ,RecipeUpdateDTO,RecipeCardDTO } from "../dt
 import { IRecipeRepository } from "../repository/irecipe_repository.ts";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { receiveMessageOnPort } from "node:worker_threads";
+import { Recipe } from "../model/recipe.ts";
 
 export class RecipeService implements IRecipeService {
     private recipeRepository: IRecipeRepository;
@@ -32,16 +33,22 @@ export class RecipeService implements IRecipeService {
                 id: recipe.id,
                 title: recipe.title,
                 description: recipe.description,
-                imageUrl: recipe.image_url
+                imageUrl: recipe.image_url,
+                favorite: recipe.favorite
             }
         });
     }
 
-    async update(recipe: RecipeDTO): Promise<number | null> {
-        return await this.recipeRepository.update(recipe);
+    async update(recipeId: number, recipe: RecipeUpdateDTO): Promise<number | null> {
+        console.log("Send data to repository for update:", recipe);
+        return await this.recipeRepository.update(recipeId, recipe);
     }
 
     async delete(id: number): Promise<boolean> {
-        return await this.recipeRepository.delete(id);
+        await this.recipeRepository.delete(id);
+        return true;
+    }
+    async update_favorite(id: number, favorite: boolean): Promise<boolean> {
+        return await this.recipeRepository.update_favorite(id, favorite);
     }
 }

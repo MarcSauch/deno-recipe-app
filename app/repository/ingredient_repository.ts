@@ -66,4 +66,9 @@ export class IngredientRepository implements IIngredientRepository {
         const result = await this.db.update(Ingredient).set(updateData).where(eq(Ingredient.id, id)).returning();
         return result[0] ?? null;
     }
+
+    async delete(id: number): Promise<boolean> {
+        const result = await this.db.delete(Ingredient).where(eq(Ingredient.id, id)).returning();
+        return result.length > 0;
+    }
 }

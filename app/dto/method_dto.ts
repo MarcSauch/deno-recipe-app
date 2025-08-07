@@ -5,10 +5,10 @@ export interface CreateMethodDTO {
     step_number: number; // Required to specify the order of the method steps
 }
 
-export interface UpdateMethodDTO {
-    id: number; // Required for identifying the method to update
+export interface UpdateMethodDTO  {
     step?: string; // Optional to update the step description
     step_number?: number; // Optional to update the step number
+    recipe_id: number; // Optional to update the associated recipe
 }
 
 export interface MethodDTO {

@@ -60,11 +60,13 @@ ingredient_router
 ingredient_router
     .post("/create-ingredient", async (context) => {
         try {
+            console.log("Creating new ingredient...");
             const body = await context.request.body;
             const data = await body.json();
-            
+            console.log("Received ingredient data:", data);
             // Validate required fields
-            if (!data || !data.name || !data.quantity || !data.unit || !data.recipe_id) {
+            if (!data || !data.name || !data.quantity || (!data.unit && data.unit !== "") || !data.recipe_id) {
+                console.error("Invalid ingredient data:", data);
                 context.response.status = 400;
                 context.response.body = "Invalid ingredient data. Required fields: name, quantity, unit, recipe_id";
                 return;
@@ -75,8 +77,8 @@ ingredient_router
             const createdIngredient = await service.create(data as CreateIngredientDTO);
             console.log("Created Ingredient:", createdIngredient);
             
-            context.response.status = 201;
-            context.response.body = `Ingredient created with name: ${createdIngredient.name}`;
+            context.response.status = 200;
+            context.response.body = { ingredient: createdIngredient };
         } catch (error) {
             context.response.status = 500;
             context.response.body = "Error creating ingredient.";
@@ -115,4 +117,27 @@ ingredient_router
         }
     });
 
+ingredient_router
+    .delete("/ingredient/:id", async (context) => {
+        const id = context.params.id;
+        if (!id) {
+            context.response.status = 400;
+            context.response.body = "Ingredient ID is required.";
+            return;
+        }
 
+        try {
+            const service = await get_ingredient_service();
+            const ingredient_id = parseInt(id);
+            console.log(`Deleting Ingredient with ID: ${ingredient_id}`);
+
+            const success = await service.delete(ingredient_id);
+            context.response.status = success ? 200 : 404;
+            context.response.body = { success };
+            console.log(`Ingredient with ID ${ingredient_id} deleted successfully.`);
+        } catch (error) {
+            context.response.status = 500;
+            context.response.body = "Error deleting Ingredient.";
+            console.error("Error deleting Ingredient:", error);
+        }
+    });

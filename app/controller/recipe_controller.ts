@@ -95,10 +95,17 @@ recipe_router
             console.error("Error creating recipe:", error); 
         }
     })
-    .post("/update-recipe", async (context) => {
+    .post("/recipe/:id/update", async (context) => {
         try {
             const body = await context.request.body;
+            const { id } = context.params;
+            if (!id) {
+                context.response.status = 400;
+                context.response.body = "Recipe ID is required.";
+                return;
+            }
             const data = await body.json();
+            console.log("Received data for update:", data);
             // Validate required fields
             if (!data) {
                 context.response.status = 400;
@@ -106,7 +113,7 @@ recipe_router
                 return;
             }
             const service = await get_recipe_service();
-            const updatedRecipeId = await service.update(data);
+            const updatedRecipeId = await service.update(parseInt(id), data);
             context.response.status = 200; // OK
             context.response.body = { id: updatedRecipeId };
             console.log("Recipe updated successfully:", updatedRecipeId);
@@ -114,6 +121,28 @@ recipe_router
             context.response.status = 500;
             context.response.body = "Error updating recipe.";
             console.error("Error updating recipe:", error);
+        }
+    })
+    .post("/recipe/:id/favorite/", async (context) => {
+        try {
+            const { id } = context.params;
+            const body = await context.request.body;
+            const data = await body.json();
+            // Validate required fields
+            if (!data || typeof data.favorite !== "boolean") {
+                context.response.status = 400;
+                context.response.body = "Invalid Recipe data. Required field: favorite (boolean)";
+                return;
+            }
+            const service = await get_recipe_service();
+            const success = await service.update_favorite(parseInt(id), data.favorite);
+            context.response.status = success ? 200 : 404;
+            context.response.body = { success };
+            console.log("Recipe favorite status updated successfully:", id);
+        } catch (error) {
+            context.response.status = 500;
+            context.response.body = "Error updating recipe favorite status.";
+            console.error("Error updating recipe favorite status:", error);
         }
     });
 

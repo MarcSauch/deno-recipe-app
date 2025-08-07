@@ -53,7 +53,7 @@ export class IngredientService implements IIngredientService {
         };
     }
 
-    // async delete(id: number): Promise<void> {
-    //     throw new Error("Method not implemented.");
-    // }
+    async delete(id: number): Promise<boolean> {
+        return await this.ingredientRepository.delete(id);
+    }
 }
