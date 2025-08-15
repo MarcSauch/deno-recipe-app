@@ -5,6 +5,8 @@ import { eq, not, sql } from 'drizzle-orm';
 import { RecipeCreateDTO, RecipeDTO, RecipeUpdateDTO } from "../dto/recipe_dto.ts";
 import { MethodRepository } from "./method_repository.ts";
 import { IngredientRepository } from "./ingredient_repository.ts";
+import { saveRecipePhoto } from "../scripts/save_photo.ts";
+
 export class RecipeRepository implements IRecipeRepository
 {
     db: NodePgDatabase<{ Recipe: typeof Recipe }>;
@@ -14,10 +16,16 @@ export class RecipeRepository implements IRecipeRepository
     }
 
     async create(recipe: RecipeCreateDTO): Promise<RecipeType> {
+        console.log("Saving photos for recipe:", recipe);
+
+        const imageUrl = await saveRecipePhoto(recipe.image_url!);
+
+        console.log("Image saved successfully:", imageUrl);
+
         const recipe_table = {
             title: recipe.title,
             description: recipe.description,
-            image_url: recipe.image_url ?? "",
+            image_url: imageUrl,
         }
         const new_recipe = await this.db.insert(Recipe).values(recipe_table).returning();
         if (new_recipe.length === 0) {
@@ -159,6 +167,12 @@ export class RecipeRepository implements IRecipeRepository
             console.log("Recipe not found");
             return null; // Recipe not found
         }
+
+        if (recipe.image_url && recipe.image_url !== existingRecipe.image_url) {
+            // Save new Photo
+            recipe.image_url = await saveRecipePhoto(recipe.image_url!);
+        }
+
         const updatedRecipe = {
             title: recipe.title ?? existingRecipe.title,
             description: recipe.description ?? existingRecipe.description,

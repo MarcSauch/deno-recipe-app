@@ -1,5 +1,6 @@
 import { Router } from "@oak/oak";
 import { get_recipe_service } from "../dependencies.ts";
+import { join } from "https://deno.land/std@0.224.0/path/mod.ts";
 
 export const recipe_router = new Router({prefix: "/api/recipes"});
 
@@ -68,6 +69,61 @@ recipe_router
             context.response.body = "Error fetching recipes for card view.";
             console.error("Error fetching recipes for card view:", error);
         }
+    })
+    .get("/image/:imageName", async (context) => {
+        try {
+            const { imageName } = context.params;
+            if (!imageName) {
+                context.response.status = 400;
+                context.response.body = "Image name is required.";
+                return;
+            }
+
+            // Construct the path to the image file
+            const imagePath = join(Deno.cwd(), "uploads", imageName);
+            
+            // Check if file exists and read it
+            try {
+                const imageData = await Deno.readFile(imagePath);
+                
+                // Set appropriate content type based on file extension
+                const fileExtension = imageName.split('.').pop()?.toLowerCase();
+                let contentType = "application/octet-stream"; // Default
+                
+                switch (fileExtension) {
+                    case 'jpg':
+                    case 'jpeg':
+                        contentType = "image/jpeg";
+                        break;
+                    case 'png':
+                        contentType = "image/png";
+                        break;
+                    case 'gif':
+                        contentType = "image/gif";
+                        break;
+                    case 'webp':
+                        contentType = "image/webp";
+                        break;
+                    case 'svg':
+                        contentType = "image/svg+xml";
+                        break;
+                }
+                
+                context.response.headers.set("Content-Type", contentType);
+                context.response.headers.set("Cache-Control", "public, max-age=3600"); // Cache for 1 hour
+                context.response.body = imageData;
+                
+                console.log(`Served image: ${imageName}`);
+            } catch (fileError) {
+                context.response.status = 404;
+                context.response.body = `Image '${imageName}' not found.`;
+                console.error(`Image not found: ${imageName}`, fileError);
+            }
+        } catch (error) {
+            context.response.status = 500;
+            context.response.body = "Error serving image.";
+            console.error("Error serving image:", error);
+        }
     });
 
 // Create Routes
@@ -77,6 +133,7 @@ recipe_router
 
             const body = await context.request.body;
             const data = await body.json();
+            console.log("Received data for creation:", data);
             
             // Validate required fields
             if (!data) {

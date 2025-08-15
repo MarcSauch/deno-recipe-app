@@ -35,8 +35,8 @@ export class MethodRepository implements IMethodRepository {
         return methods;
     }
 
-    async update(id: number, method: UpdateMethodDTO): Promise<MethodType | null> {
-        const existingMethod = await this.get(id);
+    async update(method: UpdateMethodDTO): Promise<MethodType | null> {
+        const existingMethod = await this.get(method.id);
         if (!existingMethod) {
             return null; // Method not found
         }
@@ -51,9 +51,22 @@ export class MethodRepository implements IMethodRepository {
             updateData.step_number = method.step_number;
         }
         
-        console.log("Updating method with ID:", id, "with data:", updateData);
-        const result = await this.db.update(Method).set(updateData).where(eq(Method.id, id)).returning();
+        console.log("Updating method with ID:", method.id, "with data:", updateData);
+        const result = await this.db.update(Method).set(updateData).where(eq(Method.id, method.id)).returning();
         return result.length > 0 ? result[0] : null;
+    }
+
+    async update_multiple(methods: UpdateMethodDTO[]): Promise<MethodType[] | null> {
+        const updatedMethods = [];
+        for(const method of methods)
+        {
+            const updatedMethod = await this.update(method);
+            if (!updatedMethod) {
+                return null; // If any update fails, return null
+            }
+            updatedMethods.push(updatedMethod);
+        }
+        return updatedMethods;
     }
 
     async delete(id: number): Promise<boolean> {

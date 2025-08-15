@@ -29,7 +29,11 @@ export class IMethodRepository {
         throw new Error("Method not implemented.");
     }
     
-    async update(id: number, method: UpdateMethodDTO): Promise<MethodType | null> {
+    async update(method: UpdateMethodDTO): Promise<MethodType | null> {
+        throw new Error("Method not implemented.");
+    }
+
+    async update_multiple(methods: UpdateMethodDTO[]): Promise<MethodType[] | null>{
         throw new Error("Method not implemented.");
     }
 

@@ -44,8 +44,8 @@ export class MethodService implements IMethodService {
         });   
     }
 
-    async update(id: number, ingredient: UpdateMethodDTO): Promise<MethodDTO | null> {
-        const updatedMethod = await this.methodRepository.update(id, ingredient);
+    async update(ingredient: UpdateMethodDTO): Promise<MethodDTO | null> {
+        const updatedMethod = await this.methodRepository.update(ingredient);
         if (!updatedMethod) {
             return null; // Method not found
         }
@@ -55,6 +55,21 @@ export class MethodService implements IMethodService {
             step_number: updatedMethod.step_number,
         };
     }
+
+    async update_multiple(methods: UpdateMethodDTO[]): Promise<MethodDTO[] | null> {
+        const updatedMethods = await this.methodRepository.update_multiple(methods);
+        if (!updatedMethods) {
+            return null; // If any update fails, return null
+        }
+        return updatedMethods.map(method => {
+            return {
+                id: method.id,
+                step: method.step,
+                step_number: method.step_number,
+            };
+        });
+    }
+
 
     async delete(id: number): Promise<boolean> {
         return await this.methodRepository.delete(id);

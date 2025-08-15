@@ -16,10 +16,12 @@ export class IMethodService {
         throw new Error("Method not implemented.");
     }
 
-    async update(id: number, method: UpdateMethodDTO): Promise<MethodDTO | null> {
+    async update(method: UpdateMethodDTO): Promise<MethodDTO | null> {
         throw new Error("Method not implemented.");
     }
-
+    async update_multiple(methods: UpdateMethodDTO[]): Promise<MethodDTO[] | null> {
+        throw new Error("Method not implemented.");
+    }
     async delete(id: number): Promise<boolean> {
         throw new Error("Method not implemented.");
     }

@@ -6,6 +6,7 @@ export interface CreateMethodDTO {
 }
 
 export interface UpdateMethodDTO  {
+    id: number; // Required to identify the method to update
     step?: string; // Optional to update the step description
     step_number?: number; // Optional to update the step number
     recipe_id: number; // Optional to update the associated recipe

@@ -97,7 +97,7 @@ method_router
                 return;
             }
             const service = await get_method_service();
-            const updatedMethod= await service.update(data.id, data);
+            const updatedMethod= await service.update(data);
             if (updatedMethod) {
                 context.response.status = 200;
                 context.response.body = `Method with ID ${data.id} updated successfully.`;
@@ -115,7 +115,35 @@ method_router
             context.response.body = "Error updating Method.";
             console.error("Error updating Method:", error);
         }
+    })
+    .post("/update-methods", async (context) => {
+        const body = await context.request.body;
+        const data = await body.json();
+        // Validate required fields
+        if (!data || !Array.isArray(data.methods)) {
+            context.response.status = 400;
+            context.response.body = "Invalid Method data. Required field: methods (array)";
+            return;
+        }
+        try {
+            const service = await get_method_service();
+            const updatedMethods = await service.update_multiple(data.methods);
+            if (updatedMethods) {
+                context.response.status = 200;
+                context.response.body = { methods: updatedMethods };
+                console.log("Methods updated successfully.");
+            } else {
+                context.response.status = 404;
+                context.response.body = "No methods found to update.";
+                console.error("No methods found to update.");
+            }
+        } catch (error) {
+            context.response.status = 500;
+            context.response.body = "Error updating methods.";
+            console.error("Error updating methods:", error);
+        }
     });
+
 
 method_router
     .delete("/method/:id", async (context) => {
