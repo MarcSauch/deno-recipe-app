@@ -1,0 +1,15 @@
+meta {
+  name: Update Methods
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:8010/api/methods/update-methods
+  body: json
+  auth: none
+}
+
+body:json {
+  {"methods":[{"id":1,"step":"Chop"},{"id":2,"step":"Fry"}]}
+}

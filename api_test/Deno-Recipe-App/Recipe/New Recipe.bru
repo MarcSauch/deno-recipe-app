@@ -1,0 +1,32 @@
+meta {
+  name: New Recipe
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8010/api/recipes/create-recipe
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "title": "Chocolate Cake",
+      "description": "Rich and moist chocolate cake.",
+      "image_url": "https://example.com/cake.jpg",
+      "method": [
+        { "step": "Mix ingredients", "step_number": 1 },
+        { "step": "Bake at 180C for 30 minutes", "step_number": 2 }
+      ],
+      "ingredients": [
+        { "name": "Flour", "quantity": 2, "unit": "cups" },
+        { "name": "Sugar", "quantity": 1.5, "unit": "cups" },
+        { "name": "Cocoa Powder", "quantity": 0.75, "unit": "cups" }
+      ]
+    }
+}
+
+tests {
+  ]
+}
